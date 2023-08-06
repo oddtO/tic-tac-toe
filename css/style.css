@@ -1,0 +1,40 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #b43c28;
+}
+body > main {
+  width: 450px;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #820000;
+  border-radius: 30px;
+}
+#game-board {
+  display: grid;
+  --tile-size: 120px;
+  grid-template: repeat(3, var(--tile-size)) / repeat(3, var(--tile-size));
+  width: min-content;
+  background-color: #000000;
+  gap: 5px;
+}
+
+#game-board > li {
+  background-color: #fadc82;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  font-weight: 900;
+  user-select: none;
+}
+
+#game-board > li:hover {
+
+  background-color: #d2b45a;
+}
