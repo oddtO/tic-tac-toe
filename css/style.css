@@ -18,7 +18,6 @@ body > main {
   display: grid;
   --tile-size: 120px;
   grid-template: repeat(3, var(--tile-size)) / repeat(3, var(--tile-size));
-  width: min-content;
   background-color: #000000;
   gap: 5px;
 }
@@ -34,7 +33,6 @@ body > main {
   user-select: none;
 }
 
-#game-board > li:hover {
-
+#game-board > li:hover:empty {
   background-color: #d2b45a;
 }
