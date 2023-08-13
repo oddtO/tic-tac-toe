@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&display=swap");
+
 body {
   display: flex;
   justify-content: center;
@@ -24,15 +26,28 @@ body > main {
 
 #game-board > li {
   background-color: #fadc82;
-  cursor: pointer;
   display: flex;
   justify-content: center;
+
   align-items: center;
-  font-size: 60px;
+  font-size: 100px;
   font-weight: 900;
+  font-family: "Roboto Mono", monospace;
   user-select: none;
 }
 
-#game-board > li:hover:empty {
+#game-board > li:hover:not(.x, .o) {
   background-color: #d2b45a;
+
+  cursor: pointer;
+}
+
+li.x::before {
+  color: #e60000;
+  content: "🞫";
+}
+
+li.o::before {
+  color: #0000e6;
+  content: "⃝";
 }
