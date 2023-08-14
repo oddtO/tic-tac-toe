@@ -9,6 +9,63 @@
     <script src="js/index.js" type="module"></script>
   </head>
   <body>
+    <form action="">
+      <section class="input">
+        <div>
+          <label for="player-1">Give player 1 name</label
+          ><input type="text" name="player-1" id="player-1" />
+          <fieldset>
+            <legend>Controlled by:</legend>
+            <label for="human-1"
+              ><input
+                type="radio"
+                name="controller-1"
+                id="human-1"
+                value="human"
+                checked
+              />human</label
+            >
+            <label for="AI-1"
+              ><input
+                type="radio"
+                name="controller-1"
+                id="AI-1"
+                value="AI"
+                disabled
+              />
+              AI</label
+            >
+          </fieldset>
+        </div>
+        <div id="event-shower">event display</div>
+        <div>
+          <label for="player-2">Give player 2 name</label
+          ><input type="text" name="player-2" id="player-2" />
+          <fieldset>
+            <legend>Controlled by:</legend>
+            <label for="human-2"
+              ><input
+                type="radio"
+                name="controller-2"
+                id="human-2"
+                value="human"
+                checked
+              />human</label
+            >
+            <label for="AI-2"
+              ><input
+                type="radio"
+                name="controller-2"
+                id="AI-2"
+                value="AI"
+                disabled
+              />AI</label
+            >
+          </fieldset>
+        </div>
+      </section>
+      <input type="submit" value="START" />
+    </form>
     <main>
       <ul id="game-board">
         <li data-grid-index="0"></li>
