@@ -37,6 +37,15 @@ form input[type="text"] {
   font: inherit;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--dark-red) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: inherit;
+}
+
 form input[type="radio"] {
   --input-radio-size: 24px;
   width: var(--input-radio-size);
@@ -87,11 +96,19 @@ section > div {
   align-items: center;
 }
 
-section.game-running :is(label, fieldset) {
+form.game-running :is(label, fieldset) {
   visibility: hidden;
 }
 
-section.game-running input[type="text"] {
+form:not(.game-running) input[type="reset"] {
+  display: none;
+}
+
+form.game-running input[type=submit] {
+	display: none;
+}
+
+form.game-running input[type="text"] {
   text-align: center;
   pointer-events: none;
 }
@@ -107,7 +124,7 @@ fieldset label {
   align-items: center;
   gap: 6px;
 }
-form > input[type="submit"] {
+form > input:is([type="submit"], [type="reset"]) {
   width: 200px;
   height: 80px;
   font-size: 40px;
@@ -118,7 +135,7 @@ form > input[type="submit"] {
   cursor: pointer;
   border-radius: 40px;
 }
-input[type="submit"]:hover {
+input:is([type="submit"], [type="reset"]):hover {
   animation: scale-pulse 0.4s ease-in-out 0s infinite alternate;
 }
 
