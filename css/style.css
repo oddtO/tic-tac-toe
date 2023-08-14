@@ -88,6 +88,9 @@ form > section {
   body {
     height: fit-content;
   }
+  #event-shower {
+    order: 1;
+  }
 }
 section > div {
   display: flex;
@@ -104,13 +107,18 @@ form:not(.game-running) input[type="reset"] {
   display: none;
 }
 
-form.game-running input[type=submit] {
-	display: none;
+form.game-running input[type="submit"] {
+  display: none;
 }
 
 form.game-running input[type="text"] {
   text-align: center;
   pointer-events: none;
+}
+
+form:not(.game-running) + main {
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 section fieldset {
