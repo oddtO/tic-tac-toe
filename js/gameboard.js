@@ -24,9 +24,9 @@ export let gameBoard = (function () {
     next() {
       ++this.turnCount;
       if (this.turnCount % 2) {
-        return this.playerOne;
+        return { done: false, value: this.playerOne };
       } else {
-        return this.playerTwo;
+        return { done: false, value: this.playerTwo };
       }
     },
     checkForWinner(playerToCheck) {
@@ -52,33 +52,39 @@ export let gameBoard = (function () {
         );
       });
     },
+    checkForGameEnd(player) {
+      if (this.checkForWinner(player)) {
+        alert(player.name);
+        resetGame();
+      } else if (this.checkForTie()) {
+        alert("tie");
+        resetGame();
+      }
+    },
   };
 
   let gameBoardElem = document.querySelector("#game-board");
-  gameBoardElem.addEventListener("click", handleEvent);
 
-  return { startGame, render };
+  return { initGame, render, playGame };
 
-  function handleEvent(event) {
-    let elem = event.target;
-    if (elem.tagName != "LI") return;
-    let index = elem.dataset.gridIndex;
+  async function playGame() {
+    for (let player of players) {
+      let index = await getLegalMove(player);
+      gridState[index] = player.symbol;
+      render();
+      players.checkForGameEnd(player);
+    }
 
-    if (gridState[index]) return;
-    let currentPlayer = players.next();
-    gridState[index] = currentPlayer.symbol;
-    elem.className = gridState[index];
-
-    if (players.checkForWinner(currentPlayer)) {
-      alert(currentPlayer.name);
-      resetGame();
-    } else if (players.checkForTie()) {
-      alert("tie");
-      resetGame();
+    async function getLegalMove(player) {
+      let index = null;
+      do {
+        index = await player.getMove();
+      } while (gridState[index]);
+      return index;
     }
   }
 
-  function startGame(playerOne, playerTwo) {
+  function initGame(playerOne, playerTwo) {
     players = { ...players, playerOne, playerTwo };
     resetGame();
   }
