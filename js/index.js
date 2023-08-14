@@ -1,5 +1,5 @@
 import { gameBoard } from "./gameboard.js";
-import createPlayer from "./player.js";
+import { waitForPlayersInfo, createPlayer } from "./player.js";
 
 gameBoard.initGame(
   createPlayer("test1", "x", false),
@@ -7,3 +7,9 @@ gameBoard.initGame(
 );
 
 gameBoard.playGame();
+
+
+waitForPlayersInfo().then((playersData) => {
+
+	console.log(playersData);
+});

@@ -121,6 +121,7 @@ form:not(.game-running) + main {
   opacity: 0.4;
 }
 
+
 section fieldset {
   display: flex;
   flex-direction: column;
