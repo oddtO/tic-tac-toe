@@ -14,7 +14,6 @@ const WINNING_PATTERNS = [
 let messages = document.querySelector("#event-shower");
 export let gameBoard = (function () {
   let gridState = ["", "", "", "", "", "", "", "", ""];
-  let currentPlayer = null;
   let players = {
     turnCount: 0,
     playerOne: null,
@@ -111,7 +110,7 @@ export let gameBoard = (function () {
     gridState = gridState.fill("");
     render();
     abortController.abort();
-	abortController = new AbortController();
+    abortController = new AbortController();
   }
 
   function render() {

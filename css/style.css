@@ -6,17 +6,16 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
   --dark-orange: #b43c28;
   background-color: var(--dark-orange);
   --dark-red: #820000;
 }
 
 body > form {
-  height: 300px;
   width: 100%;
   display: grid;
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 40px;
   padding: 40px 0;
   color: #ffffff;
   font-weight: bold;
@@ -75,21 +74,30 @@ form > section {
   display: flex;
   justify-content: space-between;
   padding: 0 10%;
+  grid-row: 1;
 }
 
 @media screen and (max-width: 1140px) {
+  body {
+    flex-direction: column-reverse;
+  }
   section {
     flex-direction: column;
     gap: 80px;
   }
-  body > form {
-    height: 680px;
-  }
-  body {
-    height: fit-content;
-  }
   #event-shower {
     order: 1;
+  }
+
+  .input > div:first-child {
+    order: 2;
+  }
+
+  .input > div:last-child {
+	order:3 ;
+  }
+  form.game-running :is(label, fieldset) {
+    display: none;
   }
 }
 section > div {
@@ -121,7 +129,6 @@ form:not(.game-running) + main {
   opacity: 0.4;
 }
 
-
 section fieldset {
   display: flex;
   flex-direction: column;
@@ -137,7 +144,7 @@ form > input:is([type="submit"], [type="reset"]) {
   width: 200px;
   height: 80px;
   font-size: 40px;
-  grid-row: 5;
+  grid-row: 2;
   justify-self: center;
   background-color: #000000;
   color: #ffffff;
@@ -165,6 +172,7 @@ body > main {
   justify-content: center;
   background-color: var(--dark-red);
   border-radius: 30px;
+  flex: 0 0 auto;
 }
 #game-board {
   display: grid;
