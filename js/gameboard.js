@@ -1,4 +1,4 @@
-import { checkForWinner, checkForTie } from "./minimax.js";
+import { minimax_init, checkForWinner, checkForTie } from "./minimax.js";
 const WINNING_PATTERNS = [
   [0, 1, 2],
   [3, 4, 5],
@@ -12,9 +12,11 @@ const WINNING_PATTERNS = [
   [2, 5, 8],
 ];
 
+const gridStateMotherNode = minimax_init();
+
 let messages = document.querySelector("#event-shower");
 export let gameBoard = (function () {
-  let gridState = ["", "", "", "", "", "", "", "", ""];
+  let gridStateTree = null;
   let players = {
     turnCount: 0,
     playerOne: null,
@@ -33,14 +35,16 @@ export let gameBoard = (function () {
     checkForGameEndAndAct(player) {
       if (
         checkForWinner(
-          gridState,
+          gridStateTree.data.state,
           player.symbol
         ) /* this.checkForWinner(player) */
       ) {
         messages.textContent = `${player.name} (${player.symbol}) HAS WON!`;
         playersForm.classList.remove("game-running");
         return true;
-      } else if (checkForTie(gridState) /* this.checkForTie() */) {
+      } else if (
+        checkForTie(gridStateTree.data.state) /* this.checkForTie() */
+      ) {
         messages.textContent = `TIE!`;
         playersForm.classList.remove("game-running");
         return true;
@@ -57,7 +61,7 @@ export let gameBoard = (function () {
   });
 
   let abortController = new AbortController();
-  return { initGame, render, playGame };
+  return { initGame, playGame };
 
   async function playGame() {
     for (let player of players) {
@@ -68,16 +72,22 @@ export let gameBoard = (function () {
       } catch (error) {
         continue;
       }
-      gridState[index] = player.symbol;
+      // gridState[index] = player.symbol;
+      gridStateTree = getNextStateNode(index);
       render();
       if (players.checkForGameEndAndAct(player)) break;
     }
 
+    function getNextStateNode(index) {
+      return gridStateTree.children.find((child) => {
+        return child.data.lastMove == index;
+      });
+    }
     async function getLegalMove(player) {
       let index = null;
       do {
         index = await player.getMove(abortController.signal);
-      } while (gridState[index]);
+      } while (gridStateTree.data.state[index]);
       return index;
     }
   }
@@ -89,16 +99,18 @@ export let gameBoard = (function () {
   }
 
   function resetGame() {
+    gridStateTree = gridStateMotherNode;
     players.turnCount = 0;
-    gridState = gridState.fill("");
     render();
     abortController.abort();
     abortController = new AbortController();
   }
 
   function render() {
-    for (let i = 0; i < gridState.length; ++i) {
-      gameBoardElem.children[i].className = gridState[i];
+    for (let i = 0; i < gridStateTree.data.state.length; ++i) {
+
+      // gameBoardElem.children[i].className = gridState[i];
+      gameBoardElem.children[i].className = gridStateTree.data.state[i];
     }
   }
 })();

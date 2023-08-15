@@ -15,7 +15,7 @@ function createNode(data) {
   return { data, children: [] };
 }
 
-function generateAllPossibleCombinationsFromState(node) {
+ function generateAllPossibleCombinationsFromState(node) {
   let nextPlayer = node.data.lastPlayer == "x" ? "o" : "x";
   for (let i = 0; i < node.data.state.length; ++i) {
     if (node.data.state[i]) continue;
@@ -88,7 +88,7 @@ export function minimax_init() {
   );
 
   assignValuesToPossibleOutcomes(nodeTree);
-  console.log(nodeTree);
+	return nodeTree;
 }
 
 export function checkForWinner(gridState, symbol) {
