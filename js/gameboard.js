@@ -70,9 +70,8 @@ export let gameBoard = (function () {
       try {
         index = await getLegalMove(player);
       } catch (error) {
-		if(error.type == "abort") return;
-        console.log(error);
-        continue;
+        if (error.type == "abort") continue;
+        throw error;
       }
       // gridState[index] = player.symbol;
       gridStateTree = getNextStateNode(index);

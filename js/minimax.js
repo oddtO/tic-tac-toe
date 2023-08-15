@@ -11,7 +11,6 @@ const WINNING_PATTERNS = [
   [2, 5, 8],
 ];
 
-
 function createNode(data) {
   return { data, children: [] };
 }
@@ -91,8 +90,6 @@ export function checkForTie(gridState) {
     );
   });
 }
-
-
 
 export function arrayMin(arr) {
   var len = arr.length,
