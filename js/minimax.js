@@ -11,11 +11,11 @@ const WINNING_PATTERNS = [
   [2, 5, 8],
 ];
 
-export function createNode(data) {
+function createNode(data) {
   return { data, children: [] };
 }
 
-export function generateAllPossibleCombinationsFromState(node) {
+function generateAllPossibleCombinationsFromState(node) {
   let nextPlayer = node.data.lastPlayer == "x" ? "o" : "x";
   for (let i = 0; i < node.data.state.length; ++i) {
     if (node.data.state[i]) continue;
@@ -30,6 +30,65 @@ export function generateAllPossibleCombinationsFromState(node) {
   }
 
   return node;
+}
+
+function assignValuesToPossibleOutcomes(node) {
+  const X_WINNING_VALUE = 10;
+  const O_WINNING_VALUE = -10;
+  const TIE_VALUE = 0;
+  let currentState = node.data.state;
+  if (checkForTie(currentState)) {
+    node.data.value = TIE_VALUE;
+    return node.data.value;
+  } else if (checkForWinner(currentState, node.data.lastPlayer)) {
+    node.data.value =
+      node.data.lastPlayer == "x" ? X_WINNING_VALUE : O_WINNING_VALUE;
+    return node.data.value;
+  } else {
+    let childrenValues = [];
+    for (let child of node.children) {
+      childrenValues.push(assignValuesToPossibleOutcomes(child));
+    }
+    let getBestOutcome = node.data.lastPlayer == "x" ? arrayMin : arrayMax;
+
+    node.data.value = getBestOutcome(childrenValues);
+    return node.data.value;
+
+    function arrayMin(arr) {
+      var len = arr.length,
+        min = Infinity;
+      while (len--) {
+        if (arr[len] < min) {
+          min = arr[len];
+        }
+      }
+      return min;
+    }
+
+    function arrayMax(arr) {
+      var len = arr.length,
+        max = -Infinity;
+      while (len--) {
+        if (arr[len] > max) {
+          max = arr[len];
+        }
+      }
+      return max;
+    }
+  }
+}
+
+export function minimax_init() {
+  let nodeTree = generateAllPossibleCombinationsFromState(
+    createNode({
+      state: ["", "", "", "", "", "", "", "", ""],
+      lastPlayer: "o",
+      lastMove: null,
+    })
+  );
+
+  assignValuesToPossibleOutcomes(nodeTree);
+  console.log(nodeTree);
 }
 
 export function checkForWinner(gridState, symbol) {
