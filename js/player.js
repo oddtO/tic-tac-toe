@@ -1,7 +1,7 @@
 let gameBoardElem = document.querySelector("#game-board");
 
 createPlayer.anonymousPlayersCount = 0;
-function createPlayer(name, symbol, isAIcontrolled) {
+function createPlayer(name, symbol, isHumanOrAI) {
   let protoHuman = {
     getMove(signal) {
       return new Promise((resolve, reject) => {

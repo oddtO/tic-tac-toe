@@ -6,12 +6,27 @@ import {
   createPlayer,
 } from "./player.js";
 
+import {
+  createNode,
+  generateAllPossibleCombinationsFromState,
+} from "./minimax.js";
 /* gameBoard.initGame(
   createPlayer("test1", "x", false),
   createPlayer("test2", "o", false)
 ); */
 
 /* gameBoard.playGame(); */
+
+let nodeTree = generateAllPossibleCombinationsFromState(
+  createNode({
+    state: ["", "", "", "", "", "", "", "", ""],
+    lastPlayer: "o",
+    lastMove: null,
+  })
+);
+
+
+console.log(nodeTree);
 
 (async () => {
   while (true) {
