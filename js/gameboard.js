@@ -11,6 +11,7 @@ const WINNING_PATTERNS = [
   [2, 5, 8],
 ];
 
+let messages = document.querySelector("#event-shower");
 export let gameBoard = (function () {
   let gridState = ["", "", "", "", "", "", "", "", ""];
   let currentPlayer = null;
@@ -52,47 +53,65 @@ export let gameBoard = (function () {
         );
       });
     },
-    checkForGameEnd(player) {
+    checkForGameEndAndAct(player) {
       if (this.checkForWinner(player)) {
-        alert(player.name);
-        resetGame();
+        messages.textContent = `${player.name} (${player.symbol}) HAS WON!`;
+        playersForm.classList.remove("game-running");
+        return true;
       } else if (this.checkForTie()) {
-        alert("tie");
-        resetGame();
+        messages.textContent = `TIE!`;
+        playersForm.classList.remove("game-running");
+        return true;
       }
+      return false;
     },
   };
 
   let gameBoardElem = document.querySelector("#game-board");
+  let playersForm = document.querySelector("body > form");
+  playersForm.addEventListener("reset", (event) => {
+    event.preventDefault();
+    resetGame();
+  });
 
+  let abortController = new AbortController();
   return { initGame, render, playGame };
 
   async function playGame() {
     for (let player of players) {
-      let index = await getLegalMove(player);
+      messages.textContent = `${player.name} (${player.symbol}) is making his move!`;
+      let index = null;
+      try {
+        index = await getLegalMove(player);
+      } catch (error) {
+        continue;
+      }
       gridState[index] = player.symbol;
       render();
-      players.checkForGameEnd(player);
+      if (players.checkForGameEndAndAct(player)) break;
     }
 
     async function getLegalMove(player) {
       let index = null;
       do {
-        index = await player.getMove();
+        index = await player.getMove(abortController.signal);
       } while (gridState[index]);
       return index;
     }
   }
 
   function initGame(playerOne, playerTwo) {
-    players = { ...players, playerOne, playerTwo };
     resetGame();
+    playersForm.classList.add("game-running");
+    players = { ...players, playerOne, playerTwo };
   }
 
   function resetGame() {
     players.turnCount = 0;
     gridState = gridState.fill("");
     render();
+    abortController.abort();
+	abortController = new AbortController();
   }
 
   function render() {

@@ -3,9 +3,13 @@ let gameBoardElem = document.querySelector("#game-board");
 createPlayer.anonymousPlayersCount = 0;
 function createPlayer(name, symbol, isAIcontrolled) {
   let protoHuman = {
-    getMove() {
-      return new Promise((resolve) => {
+    getMove(signal) {
+      return new Promise((resolve, reject) => {
         gameBoardElem.addEventListener("click", handleEvent);
+        signal.addEventListener("abort", (event) => {
+          gameBoardElem.removeEventListener("click", handleEvent);
+          reject(event);
+        });
         function handleEvent(event) {
           let elem = event.target;
           if (elem.tagName != "LI") return;
@@ -52,4 +56,24 @@ function waitForPlayersInfo() {
   });
 }
 
-export { waitForPlayersInfo, createPlayer };
+function writeWhetherHumanOrAI(playersData) {
+  let names = document.querySelectorAll("input[id^=player]");
+  for (let i = 0; i < playersData.length; ++i) {
+    names[i].value =
+      playersData[i].name + " (" + playersData[i].isHumanOrAI + ")";
+  }
+}
+
+function hideWhetherHumanOrAI(playersData) {
+  let names = document.querySelectorAll("input[id^=player]");
+  for (let i = 0; i < playersData.length; ++i) {
+    names[i].value = playersData[i].name;
+  }
+}
+
+export {
+  waitForPlayersInfo,
+  writeWhetherHumanOrAI,
+  hideWhetherHumanOrAI,
+  createPlayer,
+};
