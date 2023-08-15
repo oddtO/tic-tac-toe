@@ -36,6 +36,7 @@ form input[type="text"] {
   font: inherit;
 }
 
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -94,7 +95,7 @@ form > section {
   }
 
   .input > div:last-child {
-	order:3 ;
+    order: 3;
   }
   form.game-running :is(label, fieldset) {
     display: none;

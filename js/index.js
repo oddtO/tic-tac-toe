@@ -25,7 +25,7 @@ import {
     );
 
     await gameBoard.playGame();
-		hideWhetherHumanOrAI(playersData);
+    hideWhetherHumanOrAI(playersData);
   }
 })();
 
