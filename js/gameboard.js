@@ -1,3 +1,4 @@
+import { checkForWinner, checkForTie } from "./minimax.js";
 const WINNING_PATTERNS = [
   [0, 1, 2],
   [3, 4, 5],
@@ -29,35 +30,17 @@ export let gameBoard = (function () {
         return { done: false, value: this.playerTwo };
       }
     },
-    checkForWinner(playerToCheck) {
-      let symbol = playerToCheck.symbol;
-      return WINNING_PATTERNS.find((pattern) => {
-        return (
-          gridState[pattern[0]] == symbol &&
-          gridState[pattern[1]] == symbol &&
-          gridState[pattern[2]] == symbol
-        );
-      });
-    },
-
-    checkForTie() {
-      return WINNING_PATTERNS.every((pattern) => {
-        let stateOfPatternInGrid = pattern.map((index) => {
-          return gridState[index];
-        });
-
-        return (
-          stateOfPatternInGrid.includes(this.playerOne.symbol) &&
-          stateOfPatternInGrid.includes(this.playerTwo.symbol)
-        );
-      });
-    },
     checkForGameEndAndAct(player) {
-      if (this.checkForWinner(player)) {
+      if (
+        checkForWinner(
+          gridState,
+          player.symbol
+        ) /* this.checkForWinner(player) */
+      ) {
         messages.textContent = `${player.name} (${player.symbol}) HAS WON!`;
         playersForm.classList.remove("game-running");
         return true;
-      } else if (this.checkForTie()) {
+      } else if (checkForTie(gridState) /* this.checkForTie() */) {
         messages.textContent = `TIE!`;
         playersForm.classList.remove("game-running");
         return true;
