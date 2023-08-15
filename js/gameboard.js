@@ -70,6 +70,8 @@ export let gameBoard = (function () {
       try {
         index = await getLegalMove(player);
       } catch (error) {
+		if(error.type == "abort") return;
+        console.log(error);
         continue;
       }
       // gridState[index] = player.symbol;
@@ -86,7 +88,7 @@ export let gameBoard = (function () {
     async function getLegalMove(player) {
       let index = null;
       do {
-        index = await player.getMove(abortController.signal);
+        index = await player.getMove(abortController.signal, gridStateTree);
       } while (gridStateTree.data.state[index]);
       return index;
     }
@@ -108,7 +110,6 @@ export let gameBoard = (function () {
 
   function render() {
     for (let i = 0; i < gridStateTree.data.state.length; ++i) {
-
       // gameBoardElem.children[i].className = gridState[i];
       gameBoardElem.children[i].className = gridStateTree.data.state[i];
     }

@@ -11,11 +11,12 @@ const WINNING_PATTERNS = [
   [2, 5, 8],
 ];
 
+
 function createNode(data) {
   return { data, children: [] };
 }
 
- function generateAllPossibleCombinationsFromState(node) {
+function generateAllPossibleCombinationsFromState(node) {
   let nextPlayer = node.data.lastPlayer == "x" ? "o" : "x";
   for (let i = 0; i < node.data.state.length; ++i) {
     if (node.data.state[i]) continue;
@@ -53,28 +54,6 @@ function assignValuesToPossibleOutcomes(node) {
 
     node.data.value = getBestOutcome(childrenValues);
     return node.data.value;
-
-    function arrayMin(arr) {
-      var len = arr.length,
-        min = Infinity;
-      while (len--) {
-        if (arr[len] < min) {
-          min = arr[len];
-        }
-      }
-      return min;
-    }
-
-    function arrayMax(arr) {
-      var len = arr.length,
-        max = -Infinity;
-      while (len--) {
-        if (arr[len] > max) {
-          max = arr[len];
-        }
-      }
-      return max;
-    }
   }
 }
 
@@ -88,7 +67,7 @@ export function minimax_init() {
   );
 
   assignValuesToPossibleOutcomes(nodeTree);
-	return nodeTree;
+  return nodeTree;
 }
 
 export function checkForWinner(gridState, symbol) {
@@ -111,4 +90,28 @@ export function checkForTie(gridState) {
       stateOfPatternInGrid.includes("x") && stateOfPatternInGrid.includes("o")
     );
   });
+}
+
+
+
+export function arrayMin(arr) {
+  var len = arr.length,
+    min = Infinity;
+  while (len--) {
+    if (arr[len] < min) {
+      min = arr[len];
+    }
+  }
+  return min;
+}
+
+export function arrayMax(arr) {
+  var len = arr.length,
+    max = -Infinity;
+  while (len--) {
+    if (arr[len] > max) {
+      max = arr[len];
+    }
+  }
+  return max;
 }
