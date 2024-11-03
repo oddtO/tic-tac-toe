@@ -200,12 +200,22 @@ body > main {
   cursor: pointer;
 }
 
+li::before {
+  width: 80%;
+  height: 80%;
+  content: " ";
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 li.x::before {
-  color: #e60000;
-  content: "🞫";
+  /* color: #e60000; */
+  /* content: "🞫"; */
+  background-image: url("../assets/x.svg");
 }
 
 li.o::before {
-  color: #0000e6;
-  content: "⃝";
+  /* color: #0000e6;
+  content: "⃝"; */
+  background-image: url("../assets/o.svg");
+  content: " ";
 }
